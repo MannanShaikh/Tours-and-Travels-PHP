@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width initial-scale=1.0">
+        <link rel="stylesheet" href="animate.css">
+        <link rel="stylesheet" href="bootstrap.css">
+        <style>
+            body
+            {
+                background-image: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url(Tulips.jpg);
+                background-position: center;
+                background-size: cover;
+            }
+            .bg-warning
+            {
+                background-color:rgba(rgb(255, 174, 0), rgb(255, 174, 0), rgb(255, 174, 0), 0.5) !important;
+            }
+        </style>
+        <script src="jquery-3.4.1.js"></script>
+        <!-- SCRIPT FOR RECEIVING API CALL AND DISPLAYING IN TEXTBOXES
+            <script type="text/javascript">
+            fetch('https://reqres.in/api/users/2')
+        .then(res => {
+            res.json().then(
+                data=>{
+                    console.log(data);
+                    document.getElementById('first').value = data.data.id;
+                    document.getElementById('last').value = data.data.email;
+                    document.getElementById('add').value = data.data.first_name;
+                    document.getElementById('email').value = data.data.last_name;
+                    document.getElementById('mob').value = data.data.avatar;
+                    document.getElementById('user').value = data.ad.company;
+                    document.getElementById('pass').value = data.ad.url;
+                    document.getElementById('password').value = data.ad.text;
+                }
+            )
+        })
+            </script> -->
+            <script type="text/javascript">
+            fetch('https://reqres.in/api/users',method = 'post',body='')
+            .then()
+            </script>
+        <script>
+             var animate = "animated shake"
+$(function(){
+    
+    $('#first').focusout(function(){
+        firstname();
+    });
+
+    $('#last').focusout(function(){
+        lastname();
+    });
+    
+    $('#add').focusout(function(){
+        address();
+    });
+
+    $('#email').focusout(function(){
+        email();
+    });
+
+    $('#mob').focusout(function(){
+        mobile();
+    });
+
+    $('#user').focusout(function(){
+        user();
+    });
+
+    $('#pass').focusout(function(){
+        pass();
+    });
+
+    $('#conpas').focusout(function(){
+        conpas();
+    });
+
+    $('#submit').click(function(){
+        address();
+        email();
+        mobile();
+        user();
+        conpas();
+        pass();
+        firstname();
+        lastname();
+        
+        if(conpas() == false || pass() == false || firstname() == false || lastname() == false || address() == false || email() == false || mobile() == false || user() == false)
+        {
+            alert("Please fill the form correctly");
+            return false
+        }
+        else
+        {
+            var f_name =  $('#first').val();
+            var l_name =  $('#last').val();
+            var adres =  $('#add').val();
+            var mail =  $('#email').val();
+            var mobil =  $('#mob').val();
+            var u_name =  $('#user').val();
+            var password =  $('#pass').val();
+
+       $.ajax({
+           url:"sign_up.php",
+           method:"POST",
+           data:{first:f_name, last:l_name, add:adres, email:mail, mob: mobil, user:u_name, pass:password},
+           success: function(data){
+            $('.alert').css({"display":"block"});
+               if(data == "Signed Up Successfully")
+               {
+                $('.alert').addClass("alert-success");
+                                $('.alert').html("Signed Up Successfully");
+                                setTimeout(function(){
+                                    $('.alert').removeClass("alert-success");
+                                    $('.alert').css({"display":"none"});
+                                },2000);
+                                window.location.href = "Login.html"
+               }
+               else
+               {
+                $('.alert').addClass("alert-danger");
+                                $('.alert').html("Sign Up Failed");
+                                setTimeout(function(){
+                                    $('.alert').removeClass("alert-danger");
+                                    $('.alert').css({"display":"none"});
+                                },2000);
+               }
+           }
+       });
+        }
+    });
+
+});
+
+function conpas()
+{
+    var conpass = $('#conpas').val();
+    var pass = $('#pass').val();
+    var pattern = /^[a-zA-Z0-9]+$/;
+
+if(conpas == null || conpas == "")
+{
+    $('#err8').html("Field cannot be empty");
+    $('#conpas').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    return false;
+}
+else if(pattern.test(conpass) == false)
+    {
+        $('#err8').html("Only Alpha-Numeric characters are allowed !");
+        $('#conpas').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#conpas').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if (conpass != pass)
+{
+    $('#err8').html("Password mis-match !");
+    $('#conpas').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#conpas').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err8').html("");
+    $('#conpas').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+
+function pass()
+{
+    var lastname = $('#pass').val();
+    var pattern = /^[a-zA-Z0-9]+$/;
+
+     if(lastname == "" || lastname == null)
+{
+    $('#err7').html("Field cannot be empty");
+    $('#pass').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#pass').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else if(pattern.test(lastname) == false)
+    {
+        $('#err7').html("Only Alpha-Numeric characters are allowed !");
+        $('#pass').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#pass').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if(lastname.length < 8 || lastname.length > 20)
+{
+    $('#err7').html("Characters should be more than 8 and less than 20");
+    $('#pass').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#pass').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err7').html("");
+    $('#pass').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+
+function user()
+{
+    var lastname = $('#user').val();
+    var pattern = /^[a-zA-Z]+$/;
+
+    if(lastname == "" || lastname == "")
+    {
+        $('#err6').html("Field cannot be empty");
+    $('#user').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#user').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+    else if(pattern.test(lastname) == false)
+    {
+        $('#err6').html("Only Alphabetic characters are allowed !");
+        $('#user').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#user').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if(lastname.length < 5 || lastname.length > 20)
+{
+    $('#err6').html("Characters should be more than 5 and less than 20");
+    $('#user').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#user').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err6').html("");
+    $('#user').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+
+function lastname()
+{
+    var lastname = $('#last').val();
+    var pattern = /^[a-zA-Z]+$/;
+
+    if(lastname == null || lastname == "")
+    {
+        $('#err2').html("Firld cannot be empty");
+        $('#last').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#last').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+    else if(pattern.test(lastname) == false)
+    {
+        $('#err2').html("Only Alphabetic characters are allowed !");
+        $('#last').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#last').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if(lastname.length < 3 || lastname.length > 20)
+{
+    $('#err2').html("Characters should be more than 2 and less than 20");
+    $('#last').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#last').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err2').html("");
+    $('#last').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+
+function firstname()
+{
+    var firstname = $('#first').val();
+    var pattern = /^[a-zA-Z]+$/;
+
+    if(firstname == null || firstname == "")
+    {
+        $('#err1').html("Field cannot be empty");
+        $('#first').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+        $('#first').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+    else if(pattern.test(firstname) == false)
+    {
+        $('#err1').html("Only Alphabetic characters are allowed !");
+        $('#first').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+        $('#first').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+    else if(firstname.length < 3 || firstname.length > 20)
+    {
+        $('#err1').html("Characters should be more than 2 and less than 20");
+        $('#first').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+        $('#first').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+    else
+    {
+        $('#err1').html("");
+        $('#first').css({"border-color":"initial","box-shadow":"none"});
+        return true;
+    }
+}
+
+function address()
+{
+    var address = $('#add').val();
+    var pattern = /^[a-zA-Z0-9]+$/;
+
+    if(address == null || address == "")
+    {
+        $('#err3').html("Field cannot be empty");
+        $('#add').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#add').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+    else if(pattern.test(address) == false)
+    {
+        $('#err3').html("Only Alphabetic characters are allowed !");
+        $('#add').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#add').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if(address.length < 5 || address.length > 20)
+{
+    $('#err3').html("Characters should be more than 5 and less than 20");
+    $('#add').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#add').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err3').html("");
+    $('#add').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+
+function email()
+{
+    var email = $('#email').val();
+
+    if(email == null || email == "")
+    {
+        $('#err4').html("Field cannot be empty");
+    $('#email').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#email').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if(email.length < 5 || email.length > 20)
+{
+    $('#err4').html("Characters should be more than 5 and less than 20");
+    $('#email').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#email').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err4').html("");
+    $('#email').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+
+function mobile()
+{
+    var mobile = $('#mob').val();
+
+    if(mobile == null || mobile == "")
+    {
+        $('#err5').html("Field cannot be empty");
+    $('#mob').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#mob').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+    }
+else if(mobile.length < 10 || mobile.length > 10)
+{
+    $('#err5').html("Mobile Digits should be '10'");
+    $('#mob').css({"border-color":"red","box-shadow":"2px 2px 10px red"});
+    $('#mob').addClass(animate).one('webkitAnimationEnd',function(){
+            $(this).removeClass(animate);
+        });
+        return false;
+}
+else
+{
+    $('#err5').html("");
+    $('#mob').css({"border-color":"initial","box-shadow":"none"});
+    return true;
+}
+}
+        </script>
+    </head>
+    <body>
+        <div class="mx-auto bg-warning border border-dark rounded" style="width: 300px; margin-top: 10%;">
+        <form class="was-validated" id="form-submit" action="sign_up.php" method="POST">
+            First name<input name="f_name" style="outline: none;border-radius: 5px;" id="first" type="text" required><label id="err1" style="color: rgb(230, 31, 31);"></label><br><br>
+            Last Name<input name="l_name" style="outline: none;border-radius: 5px;" id="last" type="text" required><labek id="err2" style="color: rgb(230, 31, 31);"></labek><br><br>
+            Address<input name="addr" style="outline: none;border-radius: 5px;" id="add" type="text" required><labek id="err3" style="color: rgb(230, 31, 31);"></labek><br><br>
+            Email<input name="email" style="outline: none;border-radius: 5px;" id="email" type="email" required><labek id="err4" style="color: rgb(230, 31, 32);"></labek><br><br>
+            Mobile<input name="mob" style="outline: none;border-radius: 5px;" id="mob" type="number" required><labek id="err5" style="color: rgb(230, 31, 31);"></labek><br><br>
+            username<input name="u_name" style="outline: none;border-radius: 5px;" id="user" type="text" required><labek id="err6" style="color: rgb(230, 31, 31);"></labek><br><br>
+            Password<input name="pa_word" style="outline: none;border-radius: 5px;" id="pass" type="password" required><labek id="err7" style="color: rgb(230, 31, 31);"></labek><br><br>
+            Confirm Password<input style="outline: none;border-radius: 5px;" id="conpas" type="password" required><labek id="err8" style="color: rgb(230, 31, 31);"></labek><br><br>
+            <input class="btn-danger" style="outline: none;border-radius: 5px;" type="button" id="submit" value="Sign Up">
+        </form>
+        <div class="alert" id="message" style="display: none;"></div>
+        </div>
+    </body>
+</html>

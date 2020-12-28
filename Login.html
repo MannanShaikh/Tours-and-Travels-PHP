@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="animate.css">
+        <link rel="stylesheet" href="bootstrap.css">
+        <script src="jquery-3.4.1.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#login-btn').click(function(){
+                    var user = $('#user').val();
+                    var pas = $('#pass').val();
+                    $.ajax({
+                        url:"Login.php",
+                        method:"POST",
+                        data:{name:user, pass:pas},
+                        success:function(data)
+                        {
+                            $('.alert').css({"display":"block"});
+                            if(data == "Login Successful")
+                            {
+                                $('.alert').addClass("alert-success");
+                                $('.alert').html("Login Successful");
+                                setTimeout(function(){
+                                    $('.alert').removeClass("alert-success");
+                                    $('.alert').css({"display":"none"});
+                                },2000);
+                                window.location.href = "Project.html"
+                            }
+                            else
+                            {
+                                $('.alert').addClass("alert-danger");
+                                $('.alert').html("Login Failed");
+                                setTimeout(function(){
+                                    $('.alert').removeClass("alert-danger");
+                                    $('.alert').css({"display":"none"});
+                                },2000);
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <form action="Login.php" method="POST">
+        Username<input name="u_name" style="outline: none;" id="user" type="text"><br>
+        Password<input name="p_word" style="outline: none;" id="pass" type="password"><br>
+        <input type="button" class="btn btn-primary" id="login-btn" value="Login">
+        </form>
+        <div class="alert" style="display: none; width: 20%;"></div><br><br><br>
+        <a href="sign-up.html">Register Now</a>
+    </body>
+</html>

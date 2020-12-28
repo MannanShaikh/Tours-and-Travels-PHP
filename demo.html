@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="jquery-3.4.1.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('#btn').click(function(){
+                var user = $('#username').val();
+                var word = $('#password').val();
+                $.ajax({
+                    url:"Login.php",
+                    method:"POST",
+                    data:{name:user, pass:word},
+                    success: function(data)
+                    {
+                        if(data == "Login Successful")
+                        {
+                            $('#error').html("Login Successful");
+                        }
+                        else 
+                        {
+                            $('#error').html("Login Failed");
+                        }
+                    }
+                });
+            });
+        });
+        </script>
+    </head>
+    <body>
+        username<input id="username" type="text"><br>
+        password<input id="password" type="password"><br>
+        <input type="button" id="btn" value="submit"><br>
+        <div id="error"></div>
+    </body>
+</html>
